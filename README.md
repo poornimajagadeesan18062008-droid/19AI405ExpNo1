@@ -40,3 +40,60 @@
 <p>Treat unhealthy patients in each room. And check for the unhealthy patients in random room</p>
 <h3>STEP 5:</h3>
 <p>Measure the performance parameters: For each treatment performance incremented, for each movement performance decremented</p>
+
+<h3>Program:</h3>
+
+```
+import random
+
+class MedicineAgent:
+    def __init__(self):
+        self.location = "Room A"
+        self.performance = 0
+
+    def act(self, environment):
+        temp = environment[self.location]["temperature"]
+        
+        if temp > 98.5:
+            print(f"Patient in {self.location} unhealthy ({temp:.1f}°F). Giving medicine.")
+            self.performance += 10
+            environment[self.location]["temperature"] = 98.0
+        else:
+            print(f"Patient in {self.location} healthy ({temp:.1f}°F).")
+
+        self.location = "Room B" if self.location == "Room A" else "Room A"
+        self.performance -= 1
+        print(f"Moving to {self.location}. Performance: {self.performance}")
+        print("-" * 30)
+
+def main():
+    environment = {
+        "Room A": {"temperature": random.uniform(97.0, 102.0)},
+        "Room B": {"temperature": random.uniform(97.0, 102.0)}
+    }
+    agent = MedicineAgent()
+
+    print("Starting simulation.")
+    print("-" * 30)
+
+    for step in range(5):
+        print(f"--- Step {step + 1} ---")
+        agent.act(environment)
+        
+        random_room = random.choice(["Room A", "Room B"])
+        environment[random_room]["temperature"] = random.uniform(99.0, 103.0)
+
+    print("Simulation finished.")
+
+if __name__ == "__main__":
+    main()
+```
+<h3>Output:</h3>
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1d9e687b-4400-492a-9d02-b4dd0a145b19" />
+<img width="959" height="248" alt="image" src="https://github.com/user-attachments/assets/ff575cd8-b550-4c13-865c-b97f75532736" />
+
+<h3>Result:</h3>
+
+<p>Thus the developing of AI agent with PEAS description was implemented using python programming</p>
+
+
